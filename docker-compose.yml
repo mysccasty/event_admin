@@ -9,6 +9,10 @@ services:
       - .env
     depends_on:
       - db
+    volumes:
+      - .:/app
+      - ./templates:/app/templates
+      - ./static:/app/static
 
   db:
     image: postgres:13

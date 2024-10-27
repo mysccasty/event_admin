@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Детали посетителя{% endblock %}
+{% block heading %}Детали посетителя{% endblock %}
+
+{% block content %}
+<table role="table" aria-label="Детали посетителя">
+    <thead>
+        <tr>
+            <th scope="col">Поле</th>
+            <th scope="col">Значение</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">Имя</th>
+            <td>{{ visitor.first_name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Фамилия</th>
+            <td>{{ visitor.last_name }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Телефон</th>
+            <td>{{ visitor.phone }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Почта</th>
+            <td>{{ visitor.email }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Количество регистраций</th>
+            <td>
+                <a href="{{ build_url_with_query(url_for('get_registrations'), visitor_id=visitor.id) }}">{{ visitor.registrations|length }}</a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Количество мероприятий</th>
+            <td>
+                <a href="{{ build_url_with_query(url_for('get_events'), visitor_id=visitor.id) }}">{{ events|length }}</a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Created At</th>
+            <td>{{ visitor.created_at|format_datetime_ru }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Updated At</th>
+            <td>{{ visitor.updated_at|format_datetime_ru }}</td>
+        </tr>
+    </tbody>
+</table>
+<a href="{{ url_for('update_visitor_form', visitor_id = visitor.id) }}">Обновить</a>
+<a href="{{ url_for('delete_visitor', visitor_id = visitor.id) }}">Удалить</a>
+{% endblock %}

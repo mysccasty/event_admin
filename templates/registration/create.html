@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Зарегистрировать посетителя{% endblock %}
+{% block heading %}Зарегистрировать посетителя{% endblock %}
+
+{% block content %}
+<form action="{{ request.url.path }}" method="post">
+  <label>
+    Выберите мероприятие
+    <select name="event_id" required>
+        {% for event in events %}
+        <option value="{{ event.id }}">{{ event.title }}</option>
+        {% endfor %}
+    </select>
+  </label>
+  <label>
+    Выберите посетителя
+    <select name="visitor_id" required>
+        {% for visitor in visitors %}
+        <option value="{{ visitor.id }}">{{ visitor.first_name }} {{ visitor.last_name }}</option>
+        {% endfor %}
+    </select>
+  </label>
+  <br>
+  <input type="submit" value="Зарегистрировать">
+</form>
+{% endblock %}

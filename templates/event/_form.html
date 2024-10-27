@@ -1,0 +1,39 @@
+<form action="{{ request.url.path }}" method="post">
+  <label>Название:
+    <input type="text" name="title" value="{{ event.title if event else '' }}" required>
+  </label>
+    <br>
+  <label>Описание:
+    <textarea name="description">{{ event.description if event else '' }}</textarea>
+  </label>
+    <br>
+  <label>Статус:
+    <select name="status">
+        {% for status_option in statuses %}
+        <option value="{{ status_option }}" {% if (event and event.status == status_option) or (not event and status_option == "planning") %}selected{% endif %}>{{ status_option|capitalize }}</option>
+        {% endfor %}
+    </select>
+  </label>
+    <br>
+  <label>Место проведения события:
+    <input name="location" value="{{ event.location if event else '' }}" required>
+  </label>
+    <br>
+  <label>Дата начала:
+    <input type="datetime-local" name="start_at" value="{{ event.start_at if event else '' }}" required>
+  </label>
+    <br>
+  <label>Дата конца:
+    <input type="datetime-local" name="end_at" value="{{ event.end_at if event else '' }}" required>
+  </label>
+    <br>
+  <label>Цена:
+    <input type="number" name="price" value="{{ event.price if event else '' }}" required>
+  </label>
+    <br>
+  <label>Ограничение на количество посетителей:
+    <input type="number" name="visitor_limit" value="{{ event.visitor_limit if event else '' }}">
+  </label>
+    <br>
+  <input type="submit" value="{{ 'Создать' if not event else 'Обновить' }}">
+</form>

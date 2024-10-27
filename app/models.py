@@ -16,7 +16,7 @@ class Event(Base):
     visitor_limit = Column(Integer, default=0)
     created_at = Column(TIMESTAMP, server_default=func.now())
     updated_at = Column(TIMESTAMP, server_default=func.now())
-    registrations = relationship("Registration", back_populates="event")
+    registrations = relationship("Registration", back_populates="event", cascade="all, delete-orphan")
 
 class Visitor(Base):
     __tablename__ = "visitors"
@@ -28,14 +28,14 @@ class Visitor(Base):
     email = Column(String(255), unique=True)
     created_at = Column(TIMESTAMP, server_default=func.now())
     updated_at = Column(TIMESTAMP, server_default=func.now())
-    registrations = relationship("Registration", back_populates="visitor")
+    registrations = relationship("Registration", back_populates="visitor", cascade="all, delete-orphan")
 
 class Registration(Base):
     __tablename__ = "registrations"
 
     id = Column(Integer, primary_key=True, index=True)
-    visitor_id = Column(Integer, ForeignKey("visitors.id"))
-    event_id = Column(Integer, ForeignKey("events.id"))
+    visitor_id = Column(Integer, ForeignKey("visitors.id", ondelete="CASCADE"))
+    event_id = Column(Integer, ForeignKey("events.id", ondelete="CASCADE"))
 
     visitor = relationship("Visitor", back_populates="registrations")
     event = relationship("Event", back_populates="registrations")

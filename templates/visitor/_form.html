@@ -1,0 +1,19 @@
+<form action="{{ request.url.path }}" method="post">
+  <label>Имя:
+    <input type="text" name="first_name" value="{{ visitor.first_name if visitor else '' }}" required>
+  </label>
+    <br>
+  <label>Фамилия:
+    <input type="text" name="last_name" value="{{ visitor.last_name if visitor else '' }}" required>
+  </label>
+    <br>
+  <label>Телефон:
+    <input type="text" name="phone" value="{{ visitor.phone if visitor else '' }}" required>
+  </label>
+    <br>
+  <label>Почта:
+    <input type="email" name="email" value="{{ visitor.email if visitor else '' }}">
+  </label>
+    <br>
+  <input type="submit" value="{{ 'Создать' if not visitor else 'Обновить' }}">
+</form>

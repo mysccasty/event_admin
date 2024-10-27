@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}Детали Мероприятия{% endblock %}
+{% block heading %}Детали Мероприятия{% endblock %}
+
+{% block content %}
+<table role="table" aria-label="Детали Мероприятия">
+    <thead>
+        <tr>
+            <th scope="col">Поле</th>
+            <th scope="col">Значение</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">Название</th>
+            <td>{{ event.title }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Описание</th>
+            <td>{{ event.description }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Статус</th>
+            <td>{{ event.status }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Начало в</th>
+            <td>{{ event.start_at|format_datetime_ru }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Конец в</th>
+            <td>{{ event.end_at|format_datetime_ru }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Локация</th>
+            <td>{{ event.location }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Цена</th>
+            <td>{{ event.price|format_price }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Ограничение на количество посетителей</th>
+            <td>{{ event.visitor_limit }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Количество регистраций</th>
+            <td>
+                <a href="{{ build_url_with_query(url_for('get_registrations'), event_id=event.id) }}">{{ event.registrations|length }}</a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Количество посетителей</th>
+            <td>
+                <a href="{{ build_url_with_query(url_for('get_visitors'), event_id=event.id) }}">{{ visitors|length }}</a>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Доход</th>
+            <td>
+                {{ total_income|format_price }}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Ожидаемый доход</th>
+            <td>
+                {{ expected_income|format_price }}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row">Created At</th>
+            <td>{{ event.created_at|format_datetime_ru }}</td>
+        </tr>
+        <tr>
+            <th scope="row">Updated At</th>
+            <td>{{ event.updated_at|format_datetime_ru }}</td>
+        </tr>
+    </tbody>
+</table>
+<a href="{{ url_for('update_event_form', event_id = event.id) }}">Обновить</a>
+<a href="{{ url_for('delete_event', event_id = event.id) }}">Удалить</a>
+{% endblock %}

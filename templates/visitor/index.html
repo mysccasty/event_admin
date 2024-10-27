@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Посетители{% endblock %}
+{% block heading %}Посетители{% endblock %}
+
+{% block content %}
+<form method="get" action="{{ request.url.path }}">
+  <label>
+    Поиск
+    <input type="text" name="search" placeholder="Поиск по имени, фамилии или мылу" value="{{ search or '' }}">
+  </label>
+  <button type="submit">Поиск</button>
+</form>
+<a href="/visitors/create/">Создать посетителя</a>
+<table role="table" aria-label="Таблица Посетителей">
+  <thead>
+  <tr>
+    <th scope="col">Имя</th>
+    <th scope="col">Фамилия</th>
+    <th scope="col">Телефон</th>
+    <th scope="col">Имя</th>
+    <th scope="col">
+      <a href="?sort_by=created_at{% if sort_by == 'created_at' and sort_order != 1 %}&sort_order=1{% endif %}">Created At</a>
+    </th>
+    <th scope="col">Просмотр</th>
+    <th scope="col">Обновить</th>
+    <th scope="col">Удалить</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for visitor in visitors %}
+  <tr>
+    <td>{{ visitor.first_name }}</td>
+    <td>{{ visitor.last_name }}</td>
+    <td>{{ visitor.phone }}</td>
+    <td>{{ visitor.email }}</td>
+    <td>{{ visitor.created_at|format_datetime_ru }}</td>
+    <td>
+      <a href="{{ url_for('read_visitor', visitor_id = visitor.id) }}">Просмотр</a>
+    </td>
+    <td>
+      <a href="{{ url_for('update_visitor_form', visitor_id = visitor.id) }}">Обновить</a>
+    </td>
+    <td>
+      <a href="{{ url_for('delete_visitor', visitor_id = visitor.id) }}">Удалить</a>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

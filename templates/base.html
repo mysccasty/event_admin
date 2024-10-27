@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Event Admin{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav class="navbar" role="navigation" aria-label="Навигация">
+            <a href="/events/" aria-label="Мероприятия">Мероприятия</a>
+            <a href="/visitors/" aria-label="Посетители">Посетители</a>
+            <a href="/registrations/" aria-label="Регистрации">Регистрации</a>
+        </nav>
+        <h1>{% block heading %}Event Admin{% endblock %}</h1>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

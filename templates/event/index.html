@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Мероприятия{% endblock %}
+{% block heading %}Мероприятия{% endblock %}
+
+{% block content %}
+<form method="get" action="{{ request.url.path }}">
+  <label>
+    Поиск
+    <input type="text" name="search" placeholder="Поиск по названию, описанию или локации" value="{{ search or '' }}">
+  </label>
+  <label>
+    Фильтр по статусу
+    <select name="status">
+        <option value="">Все статусы</option>
+        {% for status_option in statuses %}
+        <option value="{{ status_option }}" {% if status == status_option %}selected{% endif %}>{{ status_option|capitalize }}</option>
+        {% endfor %}
+    </select>
+  </label>
+  <button type="submit">Поиск</button>
+</form>
+<a href="/events/create/">Создать мероприятие</a>
+<table role="table" aria-label="Таблица Мероприятий">
+  <thead>
+  <tr>
+    <th scope="col">Название</th>
+    <th scope="col">Статус</th>
+    <th scope="col">
+      <a href="?sort_by=start_at{% if sort_by == 'start_at' and sort_order != 1 %}&sort_order=1{% endif %}">Начало в</a>
+    </th>
+    <th scope="col">
+      <a href="?sort_by=end_at{% if sort_by == 'end_at' and sort_order != 1 %}&sort_order=1{% endif %}">Конец в</a>
+    </th>
+    <th scope="col">Локация</th>
+    <th scope="col">
+      <a href="?sort_by=price{% if sort_by == 'price' and sort_order != 1 %}&sort_order=1{% endif %}">Цена</a>
+    </th>
+    <th scope="col">Ограничение на количество посетителей</th>
+    <th scope="col">
+      <a href="?sort_by=created_at{% if sort_by == 'created_at' and sort_order != 1 %}&sort_order=1{% endif %}">Created At</a>
+    </th>
+    <th scope="col">Просмотр</th>
+    <th scope="col">Обновить</th>
+    <th scope="col">Удалить</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for event in events %}
+  <tr>
+    <td>{{ event.title }}</td>
+    <td>{{ event.status }}</td>
+    <td>{{ event.start_at|format_datetime_ru }}</td>
+    <td>{{ event.end_at|format_datetime_ru }}</td>
+    <td>{{ event.location }}</td>
+    <td>{{ event.price|format_price }}</td>
+    <td>{{ event.visitor_limit }}</td>
+    <td>{{ event.created_at|format_datetime_ru }}</td>
+    <td>
+      <a href="{{ url_for('read_event', event_id = event.id) }}">Просмотр</a>
+    </td>
+    <td>
+      <a href="{{ url_for('update_event_form', event_id = event.id) }}">Обновить</a>
+    </td>
+    <td>
+      <a href="{{ url_for('delete_event', event_id = event.id) }}">Удалить</a>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
